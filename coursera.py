@@ -10,8 +10,8 @@ import re
 
 
 def get_courses_list(courses_count=20):
-    data = requests.get('https://www.coursera.org/sitemap~www~courses.xml')
-    root = etree.fromstring(data.content)
+    response = requests.get('https://www.coursera.org/sitemap~www~courses.xml')
+    root = etree.fromstring(response.content)
 
     return random.sample(
         [child[0].text for child in root],
@@ -80,7 +80,7 @@ def get_by_class(html_doc, class_info):
     return result.string
 
 
-def output_courses_info_to_xlsx(data, filepath):
+def output_courses_info_to_xlsx(courses, filepath):
     wb = Workbook()
     ws = wb.active
     keys = ['title', 'starts', 'language',
@@ -89,7 +89,7 @@ def output_courses_info_to_xlsx(data, filepath):
     for column, key in enumerate(keys, start=1):
         ws.cell(row=1, column=column, value=key)
 
-    for row, item in enumerate(data, start=2):
+    for row, item in enumerate(courses, start=2):
         for column, key in enumerate(keys, start=1):
             ws.cell(row=row, column=column, value=item[key])
 
