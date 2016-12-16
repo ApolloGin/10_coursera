@@ -20,7 +20,7 @@ def get_courses_list(courses_count=20):
 
 
 def get_course_info(course_url):
-    dict_course_info = {}
+    course_data = {}
     response = requests.get(course_url)
     html_doc = BeautifulSoup(response.content, 'html.parser')
     api_template = 'https://api.coursera.org/api/courses.v1?q=slug&'\
@@ -62,13 +62,13 @@ def get_course_info(course_url):
     str_rating = get_by_class(html_doc, 'ratings-text bt3-visible-xs')
     rating = float(str_rating[:4]) if str_rating else 0
 
-    dict_course_info['course_url'] = course_url
-    dict_course_info['title'] = title
-    dict_course_info['language'] = language
-    dict_course_info['starts'] = starts
-    dict_course_info['commitment'] = commitment
-    dict_course_info['rating'] = rating
-    return dict_course_info
+    course_data['course_url'] = course_url
+    course_data['title'] = title
+    course_data['language'] = language
+    course_data['starts'] = starts
+    course_data['commitment'] = commitment
+    course_data['rating'] = rating
+    return course_data
 
 
 def get_by_class(html_doc, class_info):
